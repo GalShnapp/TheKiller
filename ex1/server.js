@@ -28,6 +28,15 @@ app.post('/ideaup', function(req,res){
     console.log(ideas);
 });
 
+
+app.get('/roro', function(req,res){
+    console.log("post");
+    console.log(ideas);
+    res.send('this is my testing roror is the king ');
+
+});
+
+
 app.delete('/idead', function(req,res){
     // /idea/<id> (DELETE) - delete an idea by it’s id (returns 0 if success, 1 otherwise)
     console.log("delete");
@@ -59,8 +68,8 @@ app.get('/ideas', function (req, res) {
 })
 
 var server = app.listen(8081, function () {
-   var host = server.address().address
-   var port = server.address().port
+   var host = server.address().address;
+   var port = server.address().port;
    
    console.log("Example app listening at http://%s:%s", host, port)
 });
