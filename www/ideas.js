@@ -112,6 +112,8 @@ function ideaFactory(key, value){
     ideaBox.appendChild(idea);
     ideaBox.appendChild(editBtn);
     ideaBox.appendChild(rmvBtn);
+    
+    
 
     return ideaBox;
 
