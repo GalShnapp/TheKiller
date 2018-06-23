@@ -1,1 +1,1 @@
-{"gal":{"pw":"123qwe","ideas":{"1":"invite some freinds","2":"create a normal DB"}},"yoav":{"pw":"1234qwer","ideas":{"1":"invite some freinds over","2":"create a lame DB"}}}
+{"gal":{"pw":"123qwe","ideas":{"1":"KILL THE HOBBITS"}},"yoav":{"pw":"1234qwer","ideas":{"1":"invite some freinds over","2":"create a lame DB"}}}

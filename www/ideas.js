@@ -86,7 +86,7 @@ function deleteData(data){
 function loadList(){
     
     return fetch("http://127.0.0.1:8081/ideas", {
-    body: JSON.stringify(data), // must match 'Content-Type' header
+    body: {}, // must match 'Content-Type' header
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, same-origin, *omit
     headers: {
@@ -98,6 +98,7 @@ function loadList(){
     referrer: 'no-referrer', // *client, no-referrer
   })
     .then(function(response) {
+
         return response.json();
     })
     .then(function(obj) {
