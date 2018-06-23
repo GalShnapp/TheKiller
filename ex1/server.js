@@ -1,21 +1,60 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 
 
 var ideas = {
     1 : "A Logo...",
     2 : "Tons of cat's gifs!!!!!!"
 };
+function logReq(req,res,next){
+//    console.log("**************************** BODY *************************");
+//    console.log("**************************** BODY *************************");
+//    console.log("**************************** BODY *************************");
+//    console.log(req.body);
 
-app.get('/', function (req, res) {
-   res.send('Hello! \nI welcome you to my humble server.\nIf you wanna see the cool stuff, try and get some ideas ;)');
-});
+//    console.log("**************************** COOKIE *************************");
+//    console.log("**************************** COOKIE *************************");
+//    console.log("**************************** COOKIE *************************");
+//   console.log(req.cookies);
+//    console.log("**************************** URL *************************");
+//    console.log("**************************** URL *************************");
+//    console.log("**************************** URL *************************");
+   console.log(req.url);
+    next();
+}
 
 // /static/<filename> - returns the <filename> from the “www” directory that you should create
-app.use(express.static('www'));
+
+app.use(cookieParser());
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(logReq);
+app.use(express.static('www'));
+
+
+app.post('/users/register', function(req,res){
+    var username = req.body.username;
+    var password = req.body.pass;
+    res.redirect('/ideas.html');
+});
+
+app.post('/users/login',function(req,res){
+    var username = req.body.username;
+    var password = req.body.pass;
+    console.log('ll');
+    res.redirect('/ideas.html');
+});
+
+
+
+app.get('/', function (req, res) {
+//    console.log(req.cookies);
+    console.log('we here');
+    res.redirect('/ideas.html');
+});
 
 app.post('/ideaup', function(req,res){
     // /idea/<id> (POST) - update an idea (string)  by it’s id
@@ -55,3 +94,5 @@ var server = app.listen(8081, function () {
    
    console.log("Example app listening at http://%s:%s", host, port);
 });
+
+
