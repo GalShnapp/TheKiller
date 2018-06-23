@@ -7,6 +7,7 @@ var list;
 // Example POST method implementation:
 
 function updateIdea(id,value){
+    
     var data= {};
     data[id]=value;
     postData(data)
@@ -15,6 +16,7 @@ function updateIdea(id,value){
 }
 
 function addIdea(id, value){
+  
     var data= {};
     data[id]=value;
     putData(data)
@@ -23,6 +25,7 @@ function addIdea(id, value){
 }
 
 function removeIdea(id){
+   
     var data= {};
     data[id]=id;
     deleteData(data)
@@ -81,7 +84,19 @@ function deleteData(data){
 }
 
 function loadList(){
-    fetch('http://127.0.0.1:8081/ideas')
+    
+    return fetch("http://127.0.0.1:8081/ideas", {
+    body: JSON.stringify(data), // must match 'Content-Type' header
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // *client, no-referrer
+  })
     .then(function(response) {
         return response.json();
     })

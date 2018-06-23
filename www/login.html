@@ -5,20 +5,19 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script src="login.js"></script>
-        <script src="cookieClass.js"></script>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
             <div class="login-page">
                     <div class="form">
-                      <form class="register-form" method="POST" action="/users/register">
-                        <input type="text" name="username" placeholder="name"/>
-                        <input type="password" name="pass" placeholder="password"/>
+                      <form class="register-form" method="post" action="/users/register">
+                        <input type="text" id="username" placeholder="name"/>
+                        <input type="password" id="pass" placeholder="password"/>
                         <input type="text" placeholder="email address"/>
-                        <input type="submit" value="CREATE">
+                        <input type="submit" value="REGISTER">
                         <p class="message">Already registered? <a href="#">Sign In</a></p>
                       </form>
-                      <form class="login-form" method="POST" action="/users/login">
+                      <form class="login-form" method="post" action="/users/login">
                         <input type="text" name="username" placeholder="username"/>
                         <input type="password" name="pass" placeholder="password"/>
                         <input type="submit" value="LOGIN">
