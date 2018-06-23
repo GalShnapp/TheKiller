@@ -2,13 +2,30 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-
+var fs = require('fs');
 
 
 var ideas = {
-    1 : "A Logo...",
-    2 : "Tons of cat's gifs!!!!!!"
+    'gal' : {
+        'pw' : '123qwe',
+        'ideas' : {
+            1: 'invite some freinds',
+            2: 'create a normal DB'
+        }
+    },
+    'yoav' : {
+        'pw' : '1234qwer',
+        'ideas' : {
+            1: 'invite some freinds over',
+            2: 'create a lame DB'
+        }
+    },
 };
+
+fs.writeFile("DB.txt", JSON.stringify(ideas), function(){
+    
+});
+
 function logReq(req,res,next){
 //    console.log("**************************** BODY *************************");
 //    console.log("**************************** BODY *************************");
