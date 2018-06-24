@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 //  if session is in progress, update the cookies
 app.use(function(req,res,next){
-    if(typeof req.cookies.username !== undefined){
-        res.cookie('username', req.cookies.username, {maxAge : 1000*60*30});
+    if(Object.keys(req.cookies).length > 0){
+        res.cookie('username', req.cookies.username, {maxAge : 1800000});
     }
     next();
 });
@@ -44,7 +44,8 @@ app.post('/users/register', function(req,res){
     var username = req.body.username;
     var password = req.body.pass;
     var DB = JSON.parse(fs.readFileSync('DB.txt'));
-    if(typeof DB[username] === undefined){
+    if(!DB.hasOwnProperty(username)){
+        console.log('undef');
         DB[username]={
             pw : password,
             ideas:{
@@ -55,9 +56,9 @@ app.post('/users/register', function(req,res){
         fs.writeFileSync('DB.txt',JSON.stringify(DB));
         res.cookie('username', username, {maxAge : 1000*60*30});
         res.status(200);
-        res.sendFile(path.join(__dirname,"priv","ideas.html"));
-        res.end(); 
+        res.sendFile(path.join(__dirname,"priv","ideas.html")); 
     } else{
+        console.log('def');
         res.redirect("/login.html");
     }
     
@@ -76,7 +77,6 @@ app.post('/users/login',function(req,res){
             res.cookie('username', username, {maxAge : 1000*60*30});
             res.status(200);
             res.sendFile(path.join(__dirname,"priv","ideas.html"));
-            res.end();
         } else {
             console.log("pw doesn't match");
             res.status(401);
@@ -95,7 +95,7 @@ app.post('/users/login',function(req,res){
 
 app.get('/', function (req, res) {
     
-    if(typeof req.cookies.username !== undefined){   
+    if(Object.keys(req.cookies).length > 0){   
         res.status(200);
         res.sendFile(path.join(__dirname,"priv","ideas.html"));
     }else{
@@ -162,5 +162,3 @@ var server = app.listen(8081, function () {
    
    console.log("Example app listening at http://%s:%s", host, port);
 });
-
-

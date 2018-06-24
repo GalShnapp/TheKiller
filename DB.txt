@@ -1,1 +1,1 @@
-{"gal":{"pw":"123qwe","ideas":{"1":"KILL THE HOBBITS"}},"yoav":{"pw":"1234qwer","ideas":{"1":"invite some freinds over","2":"create a lame DB"}}}
+{"gal":{"pw":"123qwe","ideas":{"1":"KILL THE HOBBITS REAL BAD!!!!!!!!!!!!!!!!!!!!"}},"yoav":{"pw":"1234qwer","ideas":{"1":"invite some freinds over","2":"create a lame DB"}},"trip":{"pw":"trop","ideas":{"1":"get friends to use this app","2":"contribute to society"}}}
