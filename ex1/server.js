@@ -163,6 +163,46 @@ app.put('/ideapu', function (req, res) {
 
 });
 
+app.get('/data/score', function (req, res) {
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    var ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/rank', function (req, res) {
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    var ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/msg', function (req, res) {
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    var ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/pic', function (req, res) {
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    var ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
 app.get('/ideas', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
