@@ -33,7 +33,8 @@ class game {
     }
 }
 
-global.game = new game(); {
+global.game = new game();
+let a = {
     users: [],
 
     gameID: 0,
