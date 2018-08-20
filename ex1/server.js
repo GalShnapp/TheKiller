@@ -166,7 +166,8 @@ app.put('/ideapu', function (req, res) {
 app.get('/ideas', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
+    console.log('yolo');
+    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
     var ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
