@@ -1,0 +1,1 @@
+{"gal":{"pw":"123qwe","isAlive":0,"score":1000,"msg":"banana","marks":{"roy":0},"bewareOf":[]},"roy":{"pw":"1234567890","isAlive":0,"score":2000,"msg":"toot","marks":{"gal":2,"boaz":1},"bewareOf":["gal"]},"boaz":{"pw":"izac","isAlive":1,"score":1000,"msg":"shloomper","marks":{},"bewareOf":["roy"]}}

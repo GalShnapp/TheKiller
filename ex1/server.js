@@ -1,10 +1,10 @@
 // @ts-check
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var fs = require('fs');
-var path = require('path');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const fs = require('fs');
+const path = require('path');
 
 
 // /static/<filename> - returns the <filename> from the “www” directory that you should create
@@ -47,10 +47,10 @@ app.use(function (err, req, res, next) {
 // register endpoint
 app.post('/users/register', function (req, res) {
     console.log('create req');
-    var username = req.body.username;
-    var password = req.body.pass;
+    let username = req.body.username;
+    let password = req.body.pass;
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
+    let DB = JSON.parse(fs.readFileSync('DB.txt'));
     if (!DB.hasOwnProperty(username)) {
         console.log('undef');
         DB[username] = {
@@ -76,12 +76,12 @@ app.post('/users/register', function (req, res) {
 // login end-point
 app.post('/users/login', function (req, res) {
     console.log("login request");
-    var username = req.body.username;
-    var password = req.body.pass;
+    let username = req.body.username;
+    let password = req.body.pass;
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
+    let DB = JSON.parse(fs.readFileSync('DB.txt'));
     if (typeof DB[username] !== undefined) {
-        var usr = DB[username];
+        let usr = DB[username];
         if (password == usr.pw) {
             console.log("pw matches");
             res.cookie('username', username, {
@@ -103,8 +103,7 @@ app.post('/users/login', function (req, res) {
 
 });
 
-
-
+// redirecting
 app.get('/', function (req, res) {
 
     if (Object.keys(req.cookies).length > 0) {
@@ -116,13 +115,14 @@ app.get('/', function (req, res) {
 
 });
 
+// update an exsisting idea()
 app.post('/ideaup', function (req, res) {
     // /idea/<id> (POST) - update an idea (string)  by it’s id
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
-    var ideas = DB[req.cookies.username].ideas;
-    var data = req.body;
-    for (var key in data) {
+    let DB = JSON.parse(fs.readFileSync('DB.txt'));
+    let ideas = DB[req.cookies.username].ideas;
+    let data = req.body;
+    for (let key in data) {
         ideas[key] = data[key];
     }
     fs.writeFileSync('DB.txt', JSON.stringify(DB));
@@ -131,14 +131,14 @@ app.post('/ideaup', function (req, res) {
 
 });
 
-
+// delete a
 app.delete('/idead', function (req, res) {
     // /idea/<id> (DELETE) - delete an idea by it’s id (returns 0 if success, 1 otherwise)
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
-    var ideas = DB[req.cookies.username].ideas;
-    var data = req.body;
-    for (var key in data) {
+    let DB = JSON.parse(fs.readFileSync('DB.txt'));
+    let ideas = DB[req.cookies.username].ideas;
+    let data = req.body;
+    for (let key in data) {
         delete ideas[key];
     }
     fs.writeFileSync('DB.txt', JSON.stringify(DB));
@@ -151,10 +151,10 @@ app.delete('/idead', function (req, res) {
 app.put('/ideapu', function (req, res) {
     // /idea (PUT) - add new idea ( idea is just a string) returns the idead’s id
     // @ts-ignore
-    var DB = JSON.parse(fs.readFileSync('DB.txt'));
-    var ideas = DB[req.cookies.username].ideas;
-    var data = req.body;
-    for (var key in data) {
+    let DB = JSON.parse(fs.readFileSync('DB.txt'));
+    let ideas = DB[req.cookies.username].ideas;
+    let data = req.body;
+    for (let key in data) {
         ideas[key] = data[key];
     }
     fs.writeFileSync('DB.txt', JSON.stringify(DB));
@@ -164,41 +164,45 @@ app.put('/ideapu', function (req, res) {
 });
 
 app.get('/data/score', function (req, res) {
+    //TODO: query string params
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    var ideas = DB[req.cookies.username].ideas;
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
 
 app.get('/data/rank', function (req, res) {
+    //TODO: query string params
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    var ideas = DB[req.cookies.username].ideas;
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
 
 app.get('/data/msg', function (req, res) {
+    //TODO: query string params
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    var ideas = DB[req.cookies.username].ideas;
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
 
-app.get('/data/pic', function (req, res) {
+app.get('/data/highScores', function (req, res) {
+    // { 'name' : 'score'}  <== model. names as keys, ranks as values.
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    var ideas = DB[req.cookies.username].ideas;
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
@@ -207,17 +211,17 @@ app.get('/ideas', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    var DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    var ideas = DB[req.cookies.username].ideas;
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
 
-var server = app.listen(8081, function () {
+let server = app.listen(8081, function () {
     // @ts-ignore
-    var host = server.address().address;
+    let host = server.address().address;
     // @ts-ignore
-    var port = server.address().port;
+    let port = server.address().port;
 
     console.log("Example app listening at http://%s:%s", host, port);
 });
