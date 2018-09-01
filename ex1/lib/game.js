@@ -159,6 +159,7 @@ class game {
             for (let mark in marks) {
                 this.makeMark(mark, [username]);
             }
+            this.flush();
         }
     }
     /**
