@@ -64,8 +64,8 @@ class game {
         };
 
         /**
-         * returns an object containting all the marks for given User ID
-         * @param {String} user user ID
+         * returns an object containing all the marks for given User ID
+         * @param {String} user - user ID
          */
         this.getMarksForUser = function (user) {
             let marks = {};
@@ -81,8 +81,8 @@ class game {
          * kills mark.
          * returns 0 on success
          * informative string otherwise
-         * @param {String} killer 
-         * @param {String} mark 
+         * @param {String} killer - killer's ID String
+         * @param {String} mark - mark's ID String
          */
         this.kill = function (killer, mark) {
             // killer receives all of mark's arrows.
@@ -137,36 +137,63 @@ class game {
             return datum;
         }
 
+        this.loginUser = function (username, password) {
+
+        }
+
         this.addUser = function (username, password) {
             if (this.users.hasOwnProperty(username)) {
                 return 1;
             }
-
+            let killers = this.randomList();
+            let marks = this.randomList();
             this.users[username] = {
                 "pw": password,
                 "isAlive": 0,
                 "score": 10,
                 "msg": this.randomMsg(),
-                "marks": this.randomMarkList(),
+                "marks": {},
                 "bewareOf": []
             }
+            this.makeMark(username, killers);
+            for (let mark in marks) {
+                this.makeMark(mark, [username]);
+            }
+        }
+    }
+    /**
+     * Sets <mark> as a mark for each <killer> in list
+     * @param {String} mark - mark's ID string
+     * @param {String[]} list - a List of ID Strings
+     */
+    makeMark(mark, list) {
+        for (let killer in list) {
+            this.users[killer].marks[mark] = 0;
+            this.users[mark].bewareOf.push(killer);
         }
 
     }
-
-    randomMarkList() {
+    /**
+     * returns a list of random living characters
+     */
+    randomList() {
         let marks = [];
         let living = this.getAliveList();
         for (let i = 0; i < markListSize; i++) {
             marks.push(living[this.randomNum(150)]);
         }
     }
-
+    /**
+     * returns a random string out of a given set
+     */
     randomMsg() {
         let rand = this.randomNum(msgs.length);
         return msgs[rand];
     }
-
+    /**
+     * returns a random int between 0 and max
+     * @param {number} max 
+     */
     randomNum(max) {
         return Math.floor(Math.random() * Math.floor(max));
     }
