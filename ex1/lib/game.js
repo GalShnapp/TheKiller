@@ -1,10 +1,9 @@
-const userMod = require('./user');
 const https = require('https');
 const fs = require('fs');
-
-
+const user = require('./user.js')
 const loadingEndpoint = 'ex1/data/game/0.txt';
-
+const msgs = ['hello', 'world', 'punch', 'snapple', 'guliver', 'clap', 'hands'];
+const markListSize = 10;
 class game {
 
 
@@ -138,9 +137,42 @@ class game {
             return datum;
         }
 
+        this.addUser = function (username, password) {
+            if (this.users.hasOwnProperty(username)) {
+                return 1;
+            }
+
+            this.users[username] = {
+                "pw": password,
+                "isAlive": 0,
+                "score": 10,
+                "msg": this.randomMsg(),
+                "marks": this.randomMarkList(),
+                "bewareOf": []
+            }
+        }
+
+    }
+
+    randomMarkList() {
+        let marks = [];
+        let living = this.getAliveList();
+        for (let i = 0; i < markListSize; i++) {
+            marks.push(living[this.randomNum(150)]);
+        }
+    }
+
+    randomMsg() {
+        let rand = this.randomNum(msgs.length);
+        return msgs[rand];
+    }
+
+    randomNum(max) {
+        return Math.floor(Math.random() * Math.floor(max));
     }
 
     loadUsers() {
+        // @ts-ignore
         let db = JSON.parse(fs.readFileSync(loadingEndpoint));
         return db;
     }
@@ -152,6 +184,7 @@ class game {
 }
 
 
-
-global.gameSingelton = (!global.singelton) ? new game() : global.gameSingelton;
+// @ts-ignore
+global.gameSingleton = (!global.gameSingleton) ? new game() : global.gameSingleton;
+// @ts-ignore
 module.exports = global.gameSingleton;

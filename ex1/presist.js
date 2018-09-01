@@ -24,9 +24,35 @@ app.use(function (err, req, res, next) {
     console.log(req.url);
 });
 
+// *********************************************
+//  **************** Endpoints ****************
+// *********************************************
+
 app.post('/', function (req, res) {
 
 });
+
+/**
+ * Register New User endpoint
+ */
+app.post('/users/register', function (req, res) {
+    console.log('create req');
+    let username = req.body.username;
+    let password = req.body.pass;
+    // @ts-ignore
+    if (gameSingleton.addUser(username, password)) {
+        res.status(200);
+        res.send('created');
+    } else {
+        res.status(409);
+        res.send('This username is taken');
+    }
+});
+
+
+// *********************************************
+//  *************** Server-Init ***************
+// *********************************************
 
 let server = app.listen(8082, function () {
     // @ts-ignore
@@ -36,5 +62,5 @@ let server = app.listen(8082, function () {
 
     console.log("Example app listening at http://%s:%s", host, port);
 });
-
-console.log(gameSingelton.kill('roy', 'gal'));
+// @ts-ignore
+console.log(gameSingleton.kill('roy', 'gal'));
