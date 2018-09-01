@@ -40,7 +40,7 @@ class game {
         /**
          * returns an object that maps player IDs to score
          */
-        this.getScoreList = function () {
+        this.getScoreMap = function () {
             let scoreMap = {};
             for (let user in this.users) {
                 scoreMap[user] = this.users[user].score;
@@ -57,7 +57,7 @@ class game {
          */
         this.getUserStatus = function (user) {
             let status = -1;
-            if (this.users.hasOwnProperty(user)) {
+            if (!this.userExists(user)) {
                 status = this.users[user].isAlive;
             }
             return status;
@@ -69,7 +69,7 @@ class game {
          */
         this.getMarksForUser = function (user) {
             let marks = {};
-            if (this.users.hasOwnProperty(user)) {
+            if (this.userExists(user)) {
                 for (let mark in this.users[user].marks) {
                     marks[mark] = this.users[mark];
                 }
@@ -89,10 +89,10 @@ class game {
             // everybody pointing to mark is releaved
             // score is updated
             let datum = "this function was called";
-            if (!this.users.hasOwnProperty(killer)) {
+            if (!this.userExists(killer)) {
                 datum = "killer not found";
             }
-            if (!this.users.hasOwnProperty(mark)) {
+            if (!this.userExists(mark)) {
                 datum = "mark not found";
             }
             let killerObj = this.users[killer];
@@ -138,11 +138,22 @@ class game {
         }
 
         this.loginUser = function (username, password) {
-
+            if (!this.userExists(username)) {
+                return 1;
+            }
+            if (!this.users[username].pw.localeCompare(password)) {
+                return 1;
+            }
+            return 0;
         }
 
+        /**
+         * adds username to DB with random marks and chasers.
+         * @param {String} username - ID string to be used
+         * @param {String} password - validation pw.
+         */
         this.addUser = function (username, password) {
-            if (this.users.hasOwnProperty(username)) {
+            if (this.userExists(username)) {
                 return 1;
             }
             let killers = this.randomList();
@@ -160,6 +171,7 @@ class game {
                 this.makeMark(mark, [username]);
             }
             this.flush();
+            return 0;
         }
     }
     /**
@@ -176,6 +188,7 @@ class game {
     }
     /**
      * returns a list of random living characters
+     * @returns {any}
      */
     randomList() {
         let marks = [];
@@ -207,6 +220,13 @@ class game {
 
     flush() {
         fs.writeFileSync(loadingEndpoint, JSON.stringify(this.users));
+    }
+
+    userExists(username) {
+        if (this.users.hasOwnProperty(username)) {
+            return 1;
+        }
+        return 0;
     }
 
 }

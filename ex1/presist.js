@@ -63,12 +63,58 @@ app.post('/users/login', function (req, res) {
     if (gameSingleton.loginUser(username, password)) {
         console.log('rightful termination on logging ' + username);
         res.status(200);
-        res.send('logged');
+        res.send('verified');
     } else {
         res.status(409);
         console.log('wrongful termination on logging ' + username);
         res.send('missMatch');
     }
+});
+
+app.get('/data/score', function (req, res) {
+    console.log('----------  score  ----------');
+    console.log('a user requested /data/score');
+    //TODO: query string params
+    let user = req.params.id;
+    // @ts-ignore
+    if (gameSingleton.userExists(user)) {
+
+    }
+
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/rank', function (req, res) {
+    //TODO: query string params
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/msg', function (req, res) {
+    //TODO: query string params
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
+});
+
+app.get('/data/highScores', function (req, res) {
+    // { 'name' : 'score'}  <== model. names as keys, ranks as values.
+    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
+    // @ts-ignore
+    console.log('yolo');
+    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
+    let ideas = DB[req.cookies.username].ideas;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(ideas));
 });
 
 
