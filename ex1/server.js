@@ -213,8 +213,11 @@ app.get('/data/score', function (req, res) {
     creq.write(req.query.id);
     creq.end();
 
+    let obj = {
+        'score': 9000
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.send(200);
+    res.send(JSON.stringify(obj));
 });
 
 app.get('/data/rank', function (req, res) {
@@ -222,8 +225,11 @@ app.get('/data/rank', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     let user = req.query.id;
+    let obj = {
+        'rank': 1
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    res.send(JSON.stringify(obj));
 });
 
 app.get('/data/msg', function (req, res) {
@@ -231,8 +237,11 @@ app.get('/data/msg', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     let user = req.query.id;
+    let obj = {
+        'msg': 'banana'
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    res.send(JSON.stringify(obj));
 });
 
 app.get('/data/highScores', function (req, res) {
