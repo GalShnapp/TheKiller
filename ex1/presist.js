@@ -71,26 +71,35 @@ app.post('/users/login', function (req, res) {
     }
 });
 
+/**
+ * Single User Score endpoint
+ */
 app.get('/data/score', function (req, res) {
+    console.log('');
     console.log('----------  score  ----------');
     console.log('a user requested /data/score');
     //TODO: query string params
-    let user = req.params.id;
+    let user = req.query.id;
+    console.log(user);
     // @ts-ignore
-    if (gameSingleton.userExists(user)) {
-
+    let score = gameSingleton.getUserScore(user);
+    if (score == 1) {
+        console.log('not exist');
+        res.status(409);
+        res.send('user does not exist');
+    } else {
+        console.log('exist');
+        res.status(200);
+        res.send(score);
     }
-
-    res.send(JSON.stringify(ideas));
 });
 
 app.get('/data/rank', function (req, res) {
     //TODO: query string params
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
+    let user = req.params.id;
+    //@ts-ignore
+    let rank = gameSingleton.getUserRank(user);
+    // if (rank == )
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
@@ -111,7 +120,6 @@ app.get('/data/highScores', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
     let ideas = DB[req.cookies.username].ideas;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
@@ -133,3 +141,6 @@ let server = app.listen(8082, function () {
 });
 // @ts-ignore
 console.log(gameSingleton.kill('roy', 'gal'));
+
+gameSingleton.getScoreMap();
+console.log('gal is number ' + gameSingleton.getUserRank('gal'));

@@ -24,6 +24,14 @@ class game {
             return living;
         }
 
+        this.getUserScore = function (user) {
+            if (this.userExists(user)) {
+                return this.users[user].score;
+            } else {
+                return 1;
+            }
+
+        }
         /**
          * returns an object containing all deceased users
          */
@@ -38,13 +46,20 @@ class game {
         };
 
         /**
-         * returns an object that maps player IDs to score
+         * @returns {any[]} - an array of couples.
          */
         this.getScoreMap = function () {
-            let scoreMap = {};
+            let scoreMap = [];
             for (let user in this.users) {
-                scoreMap[user] = this.users[user].score;
+                let pair = [user, this.users[user].score];
+                scoreMap.push(pair);
             }
+            scoreMap.sort(function ([a, b], [c, d]) {
+                // less than 0 -> a is lower
+                // more than 0 -> b is lower
+
+                return d - b;
+            });
             return scoreMap;
         };
 
@@ -53,7 +68,7 @@ class game {
          * -1 if player does not exist
          * 0 if player is alive
          * 1 if player is dead
-         * @param {String} user  User ID
+         * @param {String} user - User ID
          */
         this.getUserStatus = function (user) {
             let status = -1;
@@ -145,6 +160,21 @@ class game {
                 return 1;
             }
             return 0;
+        }
+
+        /**
+         * @returns {any} - user's rank
+         * @param {String} user - user ID string
+         */
+        this.getUserRank = function (user) {
+            let scoreMap = this.getScoreMap();
+            let rank = 1;
+            scoreMap.forEach(function (val, ind) {
+                if (!val[0].localeCompare(user)) {
+                    rank += ind;
+                }
+            });
+            return rank;
         }
 
         /**

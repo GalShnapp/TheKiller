@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const path = require('path');
-
+const http = require('http');
 
 // /static/<filename> - returns the <filename> from the “www” directory that you should create
 
@@ -164,23 +164,64 @@ app.put('/ideapu', function (req, res) {
 });
 
 app.get('/data/score', function (req, res) {
-    //TODO: query string params
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
+    console.log('data/score');
+    let user = req.query.id;
+    var options = {
+        // host to forward to
+        host: '127.0.0.2',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/data/score',
+        // request method
+        method: 'get',
+        // headers to send
+        headers: req.headers,
+        // query
+        query: {
+            id: req.query.id
+        }
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.write(chunk);
+        });
+
+        cres.on('close', function () {
+            // closed, let's end client request as well 
+            res.writeHead(cres.statusCode);
+            res.end();
+        });
+
+        cres.on('end', function () {
+            // finished, let's finish client request as well 
+            // res.writeHead(cres.statusCode);
+            res.end();
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log(e.message);
+        res.writeHead(500);
+        res.end();
+    });
+    creq.write(req.query.id);
+    creq.end();
+
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    res.send(200);
 });
 
 app.get('/data/rank', function (req, res) {
     //TODO: query string params
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
+    let user = req.query.id;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
@@ -189,9 +230,7 @@ app.get('/data/msg', function (req, res) {
     //TODO: query string params
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
+    let user = req.query.id;
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(ideas));
 });
