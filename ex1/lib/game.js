@@ -24,14 +24,6 @@ class game {
             return living;
         }
 
-        this.getUserScore = function (user) {
-            if (this.userExists(user)) {
-                return this.users[user].score;
-            } else {
-                return 1;
-            }
-
-        }
         /**
          * returns an object containing all deceased users
          */
@@ -44,6 +36,15 @@ class game {
             }
             return deceased;
         };
+
+        this.getUserScore = function (user) {
+            if (this.userExists(user)) {
+                return this.users[user].score;
+            } else {
+                return 1;
+            }
+
+        }
 
         /**
          * @returns {any[]} - an array of couples.
@@ -152,6 +153,12 @@ class game {
             return datum;
         }
 
+        /**
+         * validates user's login information
+         * @returns 1 on fail, 0 on valid data
+         * @param {String} username user's username
+         * @param {*} password - user's password
+         */
         this.loginUser = function (username, password) {
             if (!this.userExists(username)) {
                 return 1;
@@ -168,14 +175,29 @@ class game {
          */
         this.getUserRank = function (user) {
             let scoreMap = this.getScoreMap();
-            let rank = 1;
+            let rank = 0;
             scoreMap.forEach(function (val, ind) {
                 if (!val[0].localeCompare(user)) {
                     rank += ind;
+                    rank++;
                 }
             });
             return rank;
         }
+
+        /**
+         * 
+         * @returns {String} - user's msg
+         * @param {String} user 
+         */
+        this.getUserMsg = function (user) {
+            if (this.userExists(user)) {
+                return this.users[user].msg;
+            } else {
+                return -1;
+            }
+        }
+
 
         /**
          * adds username to DB with random marks and chasers.
@@ -204,6 +226,7 @@ class game {
             return 0;
         }
     }
+
     /**
      * Sets <mark> as a mark for each <killer> in list
      * @param {String} mark - mark's ID string
@@ -216,6 +239,7 @@ class game {
         }
 
     }
+
     /**
      * returns a list of random living characters
      * @returns {any}

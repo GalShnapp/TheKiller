@@ -163,16 +163,22 @@ app.put('/ideapu', function (req, res) {
 
 });
 
+/**
+ * score endpoint
+ */
 app.get('/data/score', function (req, res) {
-    console.log('data/score');
+    console.log('');
+    console.log('----------  score  ----------');
+    console.log('a user requested /data/score');
     let user = req.query.id;
+    console.log('query: id=' + user);
     var options = {
         // host to forward to
-        host: '127.0.0.2',
+        host: '127.0.0.1',
         // port to forward to
         port: 8082,
         // path to forward to
-        path: '/data/score',
+        path: '/data/score?id=' + req.query.id,
         // request method
         method: 'get',
         // headers to send
@@ -189,70 +195,208 @@ app.get('/data/score', function (req, res) {
 
         // wait for data
         cres.on('data', function (chunk) {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(cres.statusCode);
+            console.log('data');
             res.write(chunk);
         });
 
         cres.on('close', function () {
-            // closed, let's end client request as well 
-            res.writeHead(cres.statusCode);
+            // closed, let's end client request as well
+            console.log('close');
             res.end();
         });
 
         cres.on('end', function () {
-            // finished, let's finish client request as well 
-            // res.writeHead(cres.statusCode);
+
+            console.log('end');
             res.end();
         });
 
     }).on('error', function (e) {
         // we got an error, return 500 error to client and log error
         console.log(e.message);
-        res.writeHead(500);
+        res.writeHead(409);
         res.end();
     });
     creq.write(req.query.id);
     creq.end();
 
-    let obj = {
-        'score': 9000
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(obj));
+
 });
 
+/**
+ * rank endpoint
+ */
 app.get('/data/rank', function (req, res) {
-    //TODO: query string params
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
+    console.log('');
+    console.log('----------- rank -----------');
+    console.log('a user requested /data/rank');
     let user = req.query.id;
-    let obj = {
-        'rank': 1
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(obj));
+    console.log('query: id=' + user);
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/data/rank?id=' + req.query.id,
+        // request method
+        method: 'get',
+        // headers to send
+        headers: req.headers,
+        // query
+        query: {
+            id: req.query.id
+        }
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(cres.statusCode);
+            console.log('data');
+            res.write(chunk);
+        });
+
+        cres.on('close', function () {
+            // closed, let's end client request as well
+            console.log('close');
+            res.end();
+        });
+
+        cres.on('end', function () {
+
+            console.log('end');
+            res.end();
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    creq.write(req.query.id);
+    creq.end();
+
 });
 
+/**
+ * msg endpoint
+ */
 app.get('/data/msg', function (req, res) {
-    //TODO: query string params
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
+    console.log('');
+    console.log('-----------  msg  -----------');
+    console.log('a user requested /data/msg');
     let user = req.query.id;
-    let obj = {
-        'msg': 'banana'
-    }
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(obj));
+    console.log('query: id=' + user);
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/data/msg?id=' + req.query.id,
+        // request method
+        method: 'get',
+        // headers to send
+        headers: req.headers,
+        // query
+        query: {
+            id: req.query.id
+        }
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(cres.statusCode);
+            console.log('data');
+            res.write(chunk);
+        });
+
+        cres.on('close', function () {
+            // closed, let's end client request as well
+            console.log('close');
+            res.end();
+        });
+
+        cres.on('end', function () {
+
+            console.log('end');
+            res.end();
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    creq.write(req.query.id);
+    creq.end();
+
+
 });
 
 app.get('/data/highScores', function (req, res) {
-    // { 'name' : 'score'}  <== model. names as keys, ranks as values.
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    console.log('');
+    console.log('----------  score  ----------');
+    console.log('a user requested /data/highScores');
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/data/highScores',
+        // request method
+        method: 'get',
+        // headers to send
+        headers: req.headers,
+        // query
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(cres.statusCode);
+            console.log('data');
+            res.write(chunk);
+        });
+
+        cres.on('close', function () {
+            // closed, let's end client request as well
+            console.log('close');
+            res.end();
+        });
+
+        cres.on('end', function () {
+
+            console.log('end');
+            res.end();
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    creq.end();
 });
 
 app.get('/ideas', function (req, res) {

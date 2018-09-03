@@ -78,52 +78,77 @@ app.get('/data/score', function (req, res) {
     console.log('');
     console.log('----------  score  ----------');
     console.log('a user requested /data/score');
-    //TODO: query string params
     let user = req.query.id;
-    console.log(user);
+    console.log('query: id=' + user);
     // @ts-ignore
     let score = gameSingleton.getUserScore(user);
     if (score == 1) {
-        console.log('not exist');
         res.status(409);
         res.send('user does not exist');
     } else {
-        console.log('exist');
         res.status(200);
-        res.send(score);
+        let obj = {
+            'score': score
+        };
+        res.json(obj);
     }
 });
 
 app.get('/data/rank', function (req, res) {
-    //TODO: query string params
-    let user = req.params.id;
-    //@ts-ignore
-    let rank = gameSingleton.getUserRank(user);
-    // if (rank == )
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    console.log('');
+    console.log('----------  ranks  ----------');
+    console.log('a user requested /data/rank');
+    let user = req.query.id;
+    console.log('query: id=' + user);
+    let rank = {
+        //@ts-ignore
+        'rank': gameSingleton.getUserRank(user)
+    };
+    if (!rank['rank']) {
+        res.status(409);
+        res.send('user does not exist');
+    } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.json(rank);
+    }
 });
 
 app.get('/data/msg', function (req, res) {
-    //TODO: query string params
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    console.log('');
+    console.log('-----------  msg  -----------');
+    console.log('a user requested /data/msg');
+    let user = req.query.id;
+    console.log('query: id=' + user);
+
+    let msg = {
+        //@ts-ignore
+        'msg': gameSingleton.getUserMsg(user)
+    };
+    if (msg['msg'] == -1) {
+        res.status(409);
+        res.send('user does not exist');
+    } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.json(msg);
+    }
+
 });
 
 app.get('/data/highScores', function (req, res) {
-    // { 'name' : 'score'}  <== model. names as keys, ranks as values.
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let ideas = DB[req.cookies.username].ideas;
+    console.log('');
+    console.log('-----------  HiScore  -----------');
+    console.log('a user requested /data/highScores');
+
+    let highScores = {
+        //@ts-ignore
+        'highScores': gameSingleton.getScoreMap()
+    }
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    res.json(highScores);
+
+
 });
+
 
 
 
