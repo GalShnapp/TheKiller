@@ -68,7 +68,7 @@ function putData(data) {
 
 function deleteData(data) {
 
-    return fetch("http://127.0.0.1:8081/idead", {
+    return fetch("http://127.0.0.1:8081/kill", {
         body: JSON.stringify(data), // must match 'Content-Type' header
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, same-origin, *omit
@@ -86,13 +86,12 @@ function deleteData(data) {
 function loadList() {
 
     // @ts-ignore
-    return fetch("http://127.0.0.1:8081/ideas", {
-
+    return fetch("http://127.0.0.1:8081/marks", {
+             // must match 'Content-Type' header
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, same-origin, *omit
             headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'content-type': 'application/json'
             },
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
@@ -116,20 +115,32 @@ function ideaFactory(key, value) {
     var ideaBox = document.createElement("DIV");
     var idea = document.createElement("P");
 
-    var editBtn = document.createElement("BUTTON");
-    editBtn.setAttribute("onclick", "toEditButton(" + key + ")");
-    editBtn.innerHTML = "Edit";
 
-    var rmvBtn = document.createElement("BUTTON");
-    rmvBtn.setAttribute("onclick", "rmvIdea(" + key + ")");
-    rmvBtn.innerHTML = "Remove";
+    var viewProfileBtn = document.createElement("BUTTON");
+    viewProfileBtn.setAttribute("onclick", "viewProfileButton(\"" + key + "\")");
+    viewProfileBtn.innerHTML = "View Profile";
 
-    idea.innerHTML = value;
+
+
+    idea.innerHTML = key;
+    //if (value[isAlive] == 1) {
+      //  idea.setAttribute("class", "deadPerson");
+    //} else if (value[isAlive] == 2) {
+    //    idea.setAttribute("class", "deadPerson2");
+    //}
     ideaBox.setAttribute("class", "container darker");
     ideaBox.setAttribute("id", key);
     ideaBox.appendChild(idea);
-    ideaBox.appendChild(editBtn);
-    ideaBox.appendChild(rmvBtn);
+    //ideaBox.appendChild(editBtn);
+    //if (value[isAlive] == 0){
+        var killBtn = document.createElement("BUTTON");
+        console.log(key);
+        killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
+        killBtn.innerHTML = "Kill";
+        ideaBox.appendChild(killBtn);
+    //}
+    ideaBox.appendChild(viewProfileBtn);
+
 
 
 
@@ -137,7 +148,7 @@ function ideaFactory(key, value) {
 
 }
 
-function toEditButton(id) {
+function viewProfileButton(id) {
 
     var origRef = document.getElementById(id);
     var editable = document.createElement("DIV");
@@ -146,7 +157,7 @@ function toEditButton(id) {
     var saveBtn = document.createElement("BUTTON");
 
     editable.setAttribute("id", id);
-    saveBtn.setAttribute("onclick", "save(" + id + ")");
+    saveBtn.setAttribute("onclick", "save(\"" + id + "\")");
     saveBtn.innerHTML = "Save";
     editable.setAttribute("class", "container darker");
     addBlk.setAttribute("class", "addBlock");
@@ -156,6 +167,7 @@ function toEditButton(id) {
     editable.appendChild(addBlk);
 
     list.replaceChild(editable, origRef);
+    document.location.href = "http://127.0.0.1:8081/profilePage.html?id=" + id;
 
 }
 
@@ -168,8 +180,8 @@ function save(id) {
     updateIdea(id, val);
 }
 
-function rmvIdea(id) {
-
+function killButton(id) {
+    console.log(id);
     list.removeChild(document.getElementById(id));
     console.log("button " + id + " wants a removal");
     removeIdea(id);
@@ -178,10 +190,20 @@ function rmvIdea(id) {
 function newIdea() {
     var id = Math.random();
     var val = document.getElementById("addTxt").value;
+    id = val;
     var newIdea = ideaFactory(id, val);
     list.appendChild(newIdea);
     document.getElementById("addTxt").value = null;
     addIdea(id, val);
+}
+
+
+function howToBTN(){
+    window.location.href = "http://127.0.0.1:8081/howTo.html";
+}
+
+function highScoresBTN(){
+    window.location.href = "http://127.0.0.1:8081/highScores.html";
 }
 
 window.onload = function () {
