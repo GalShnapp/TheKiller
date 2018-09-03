@@ -132,7 +132,7 @@ app.post('/ideaup', function (req, res) {
 });
 
 // delete a
-app.delete('/idead', function (req, res) {
+app.delete('/kill', function (req, res) {
     // /idea/<id> (DELETE) - delete an idea by it’s id (returns 0 if success, 1 otherwise)
     // @ts-ignore
     let DB = JSON.parse(fs.readFileSync('DB.txt'));
