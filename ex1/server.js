@@ -399,7 +399,7 @@ app.get('/data/highScores', function (req, res) {
     creq.end();
 });
 
-app.get('/ideas', function (req, res) {
+app.get('/marks', function (req, res) {
     // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
     // @ts-ignore
     console.log('yolo');
