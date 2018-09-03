@@ -94,6 +94,9 @@ app.get('/data/score', function (req, res) {
     }
 });
 
+/**
+ * Single User Rank endpoint
+ */
 app.get('/data/rank', function (req, res) {
     console.log('');
     console.log('----------  ranks  ----------');
@@ -113,6 +116,9 @@ app.get('/data/rank', function (req, res) {
     }
 });
 
+/**
+ * Single User Msg endpoint
+ */
 app.get('/data/msg', function (req, res) {
     console.log('');
     console.log('-----------  msg  -----------');
@@ -134,6 +140,9 @@ app.get('/data/msg', function (req, res) {
 
 });
 
+/**
+ * HighScores endpoint
+ */
 app.get('/data/highScores', function (req, res) {
     console.log('');
     console.log('-----------  HiScore  -----------');
@@ -148,7 +157,6 @@ app.get('/data/highScores', function (req, res) {
 
 
 });
-
 
 
 
