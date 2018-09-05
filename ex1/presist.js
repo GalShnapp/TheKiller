@@ -53,11 +53,11 @@ app.post('/users/register', function (req, res) {
 /**
  * Login endpoint
  */
-app.post('/users/login', function (req, res) {
+app.get('/users/login', function (req, res) {
     console.log('----------  login  ----------');
     console.log('a user requested /users/login');
-    let username = req.body.username;
-    let password = req.body.pass;
+    let username = req.query.id;
+    let password = req.query.pw;
     console.log('user name: ' + username + 'password: ' + password);
     // @ts-ignore
     if (gameSingleton.loginUser(username, password)) {
@@ -158,6 +158,24 @@ app.get('/data/highScores', function (req, res) {
 
 });
 
+/**
+ * mark-list endpoint
+ */
+app.get('/marks', function (req, res) {
+    console.log('');
+    console.log('----------  marks  ----------');
+    console.log('a user requested /marks');
+    let user = req.query.id;
+    console.log('query: id=' + user);
+    let marks = {
+        //@ts-ignore
+        'marks': gameSingleton.getMarksForUser(user)
+    };
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200);
+    res.json(marks);
+
+});
 
 
 // *********************************************
@@ -174,6 +192,7 @@ let server = app.listen(8082, function () {
 });
 // @ts-ignore
 console.log(gameSingleton.kill('roy', 'gal'));
-
+//@ts-ignore
 gameSingleton.getScoreMap();
+//@ts-ignore
 console.log('gal is number ' + gameSingleton.getUserRank('gal'));

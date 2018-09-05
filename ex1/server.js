@@ -75,31 +75,59 @@ app.post('/users/register', function (req, res) {
 
 // login end-point
 app.post('/users/login', function (req, res) {
-    console.log("login request");
+    console.log('');
+    console.log('----------  login  ----------');
+    console.log('a user requested /users/login');
     let username = req.body.username;
     let password = req.body.pass;
-    // @ts-ignore
-    let DB = JSON.parse(fs.readFileSync('DB.txt'));
-    if (typeof DB[username] !== undefined) {
-        let usr = DB[username];
-        if (password == usr.pw) {
-            console.log("pw matches");
-            res.cookie('username', username, {
-                maxAge: 1000 * 60 * 30
-            });
-            res.status(200);
-            res.sendFile(path.join(__dirname, "priv", "ideas.html"));
-        } else {
-            console.log("pw doesn't match");
-            res.status(401);
-            res.redirect('/login.html');
-        }
-    } else {
-        console.log("no such user");
-        res.status(401);
-        res.redirect('/login.html');
-    }
+    console.log("user: " + username);
+    console.log("password: " + password);
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/users/login?id=' + username + '&pw=' + password,
+        // request method
+        method: 'get'
+    };
+    let creq = http.request(options, function (cres) {
 
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            if (chunk.localeCompare('verified') == 0) {
+                res.cookie('username', username, {
+                    maxAge: 1000 * 60 * 30
+                });
+                res.sendFile(path.join(__dirname, "priv", "ideas.html"));
+            } else {
+                res.redirect('/login.html');
+            }
+            console.log(chunk.localeCompare('verified'));
+            console.log(chunk.localeCompare('missMatch'));
+        });
+
+        cres.on('close', function () {
+            console.log('close');
+        });
+
+        cres.on('end', function () {
+            console.log('end');
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log('err');
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    console.log('banana');
+    creq.end();
 
 });
 
@@ -131,8 +159,10 @@ app.post('/ideaup', function (req, res) {
 
 });
 
-// delete a
-app.delete('/idead', function (req, res) {
+/**
+ * kill a player endpoint
+ */
+app.delete('/kill', function (req, res) {
     // /idea/<id> (DELETE) - delete an idea by it’s id (returns 0 if success, 1 otherwise)
     // @ts-ignore
     let DB = JSON.parse(fs.readFileSync('DB.txt'));
@@ -399,14 +429,60 @@ app.get('/data/highScores', function (req, res) {
     creq.end();
 });
 
+/**
+ * mark-list endpoint
+ */
 app.get('/marks', function (req, res) {
-    // /ideas (GET) - returns all the ideas as an object whereas id(number) -> idea(string)
-    // @ts-ignore
-    console.log('yolo');
-    let DB = JSON.parse(fs.readFileSync('DB.txt').toString());
-    let ideas = DB[req.cookies.username].ideas;
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(ideas));
+    console.log('');
+    console.log('----------  marks  ----------');
+    console.log('a user requested /marks');
+
+    console.log('coockie: ' + req.cookies.username);
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/marks?id=' + req.cookies.username,
+        // request method
+        method: 'get',
+        // headers to send
+        headers: req.headers,
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.setHeader('Content-Type', 'application/json');
+            res.writeHead(cres.statusCode);
+            console.log('data');
+            console.log(chunk);
+            res.write(chunk);
+        });
+
+        cres.on('close', function () {
+            // closed, let's end client request as well
+            console.log('close');
+            res.end();
+        });
+
+        cres.on('end', function () {
+
+            console.log('end');
+            res.end();
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    creq.end();
 });
 
 let server = app.listen(8081, function () {

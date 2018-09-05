@@ -194,6 +194,7 @@ class game {
             if (this.userExists(user)) {
                 return this.users[user].msg;
             } else {
+                // @ts-ignore
                 return -1;
             }
         }

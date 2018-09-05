@@ -87,7 +87,7 @@ function loadList() {
 
     // @ts-ignore
     return fetch("http://127.0.0.1:8081/marks", {
-             // must match 'Content-Type' header
+            // must match 'Content-Type' header
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, same-origin, *omit
             headers: {
@@ -99,12 +99,11 @@ function loadList() {
             referrer: 'no-referrer', // *client, no-referrer
         })
         .then(function (response) {
-
             return response.json();
         })
         .then(function (obj) {
-            for (var key in obj) {
-                var idea = ideaFactory(key, obj[key]);
+            for (var key in obj['marks']) {
+                var idea = ideaFactory(key, obj.marks[key]);
                 list.insertBefore(idea, list.childNodes[0]);
             }
 
@@ -124,7 +123,7 @@ function ideaFactory(key, value) {
 
     idea.innerHTML = key;
     //if (value[isAlive] == 1) {
-      //  idea.setAttribute("class", "deadPerson");
+    //  idea.setAttribute("class", "deadPerson");
     //} else if (value[isAlive] == 2) {
     //    idea.setAttribute("class", "deadPerson2");
     //}
@@ -133,11 +132,11 @@ function ideaFactory(key, value) {
     ideaBox.appendChild(idea);
     //ideaBox.appendChild(editBtn);
     //if (value[isAlive] == 0){
-        var killBtn = document.createElement("BUTTON");
-        console.log(key);
-        killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
-        killBtn.innerHTML = "Kill";
-        ideaBox.appendChild(killBtn);
+    var killBtn = document.createElement("BUTTON");
+    console.log(key);
+    killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
+    killBtn.innerHTML = "Kill";
+    ideaBox.appendChild(killBtn);
     //}
     ideaBox.appendChild(viewProfileBtn);
 
@@ -198,11 +197,11 @@ function newIdea() {
 }
 
 
-function howToBTN(){
+function howToBTN() {
     window.location.href = "http://127.0.0.1:8081/howTo.html";
 }
 
-function highScoresBTN(){
+function highScoresBTN() {
     window.location.href = "http://127.0.0.1:8081/highScores.html";
 }
 
