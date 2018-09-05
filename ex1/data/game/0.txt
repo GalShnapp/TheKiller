@@ -12,7 +12,7 @@
 	"Bob":{
 			"pw":"2",
 			"isAlive":0,
-			"score":2000,
+			"score":0,
 			"msg":"Bravo",
 			"marks":{
 						"Chris":0
@@ -22,7 +22,7 @@
 	"Chris":{
 			"pw":"3",
 			"isAlive":0,
-			"score":1000,
+			"score":500,
 			"msg":"Charlie",
 			"marks":{
 						"Donald":0
@@ -42,7 +42,7 @@
 	"Erik":{
 			"pw":"5",
 			"isAlive":0,
-			"score":2000,
+			"score":5000,
 			"msg":"Echo",
 			"marks":{
 						"Frank":0
@@ -53,7 +53,7 @@
 	"Frank":{
 			"pw":"6",
 			"isAlive":0,
-			"score":2000,
+			"score":4500,
 			"msg":"Foxtrot",
 			"marks":{
 						"Gal":0
@@ -63,7 +63,7 @@
 	"Gal":{
 			"pw":"7",
 			"isAlive":0,
-			"score":2000,
+			"score":2500,
 			"msg":"Golf",
 			"marks":{
 						"Harry":0
@@ -73,7 +73,7 @@
 	"Harry":{
 			"pw":"8",
 			"isAlive":1,
-			"score":2000,
+			"score":3000,
 			"msg":"Hotel",
 			"marks":{
 						"Iddo":0
@@ -93,7 +93,7 @@
 	"James":{
 			"pw":"10",
 			"isAlive":0,
-			"score":2000,
+			"score":1000,
 			"msg":"Juliett",
 			"marks":{
 						"Kevin":0
@@ -103,7 +103,7 @@
 	"Kevin":{
 			"pw":"11",
 			"isAlive":0,
-			"score":2000,
+			"score":3000,
 			"msg":"Kilo",
 			"marks":{
 						"Lloyd":0
@@ -113,7 +113,7 @@
 	"Lloyd":{
 			"pw":"12",
 			"isAlive":1,
-			"score":2000,
+			"score":0,
 			"msg":"Lima",
 			"marks":{
 						"Mohammad":0
@@ -123,7 +123,7 @@
 	"Mohammad":{
 			"pw":"13",
 			"isAlive":0,
-			"score":2000,
+			"score":4000,
 			"msg":"Mike",
 			"marks":{
 						"Norman":0
@@ -133,7 +133,7 @@
 	"Norman":{
 			"pw":"14",
 			"isAlive":0,
-			"score":2000,
+			"score":5000,
 			"msg":"November",
 			"marks":{
 						"Or":0
@@ -153,7 +153,7 @@
 	"Paul":{
 			"pw":"16",
 			"isAlive":1,
-			"score":2000,
+			"score":1000,
 			"msg":"Papa",
 			"marks":{
 						"Quinn":0
@@ -163,7 +163,7 @@
 	"Quinn":{
 			"pw":"17",
 			"isAlive":1,
-			"score":2000,
+			"score":4000,
 			"msg":"Quebec",
 			"marks":{
 						"Roy":0
@@ -173,7 +173,7 @@
 	"Roy":{
 			"pw":"18",
 			"isAlive":0,
-			"score":2000,
+			"score":6000,
 			"msg":"Romeo",
 			"marks":{
 						"Stevy":0
@@ -183,7 +183,7 @@
 	"Stevy":{
 			"pw":"19",
 			"isAlive":0,
-			"score":2000,
+			"score":2500,
 			"msg":"Sierra",
 			"marks":{
 						"Thomas":0
@@ -193,7 +193,7 @@
 	"Thomas":{
 			"pw":"20",
 			"isAlive":0,
-			"score":2000,
+			"score":3500,
 			"msg":"Tango",
 			"marks":{
 						"Alice":0

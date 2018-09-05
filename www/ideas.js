@@ -168,7 +168,7 @@ function viewProfileButton(id) {
     editable.appendChild(addBlk);
 
     list.replaceChild(editable, origRef);
-    document.location.href = "http://127.0.0.1:8081/profilePage.html?id=" + id;
+    document.location.href = "http://127.0.0.1:8081/profilePage.html?id=" + id + "&origin=ideas";
 
 }
 

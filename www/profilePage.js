@@ -84,5 +84,9 @@ function getUrlVars() {
 
 
 function backBTN(){
+    if (getUrlVars()["origin"] == "highScores"){
+        window.location.href = "http://127.0.0.1:8081/highScores.html";
+        return;
+    }
     window.location.href = "http://127.0.0.1:8081/";
 }
