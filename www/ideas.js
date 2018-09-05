@@ -67,6 +67,7 @@ function putData(data) {
 }
 
 function deleteData(data) {
+    console.log(data);
 
     return fetch("http://127.0.0.1:8081/kill", {
         body: JSON.stringify(data), // must match 'Content-Type' header
@@ -210,4 +211,5 @@ function highScoresBTN(){
 window.onload = function () {
     list = document.getElementById("lCon");
     loadList();
+    list = null;
 };

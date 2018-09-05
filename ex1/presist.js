@@ -164,8 +164,3 @@ let server = app.listen(8082, function () {
 
     console.log("Example app listening at http://%s:%s", host, port);
 });
-// @ts-ignore
-console.log(gameSingleton.kill('roy', 'gal'));
-
-gameSingleton.getScoreMap();
-console.log('gal is number ' + gameSingleton.getUserRank('gal'));
