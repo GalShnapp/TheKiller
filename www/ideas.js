@@ -88,7 +88,7 @@ function loadList() {
 
     // @ts-ignore
     return fetch("http://127.0.0.1:8081/marks", {
-             // must match 'Content-Type' header
+            // must match 'Content-Type' header
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, same-origin, *omit
             headers: {
@@ -100,12 +100,13 @@ function loadList() {
             referrer: 'no-referrer', // *client, no-referrer
         })
         .then(function (response) {
-
             return response.json();
         })
         .then(function (obj) {
-            for (var key in obj) {
-                var idea = ideaFactory(key, obj[key]);
+            list.innerText = null;
+            console.log(obj);
+            for (var key in obj['marks']) {
+                var idea = ideaFactory(key, obj.marks[key]);
                 list.insertBefore(idea, list.childNodes[0]);
             }
 
@@ -133,9 +134,8 @@ function ideaFactory(key, value) {
     ideaBox.setAttribute("id", key);
     ideaBox.appendChild(idea);
     //ideaBox.appendChild(editBtn);
-    if (value[isAlive] == 0){
+    if (value == 0) {
         var killBtn = document.createElement("BUTTON");
-        console.log(key);
         killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
         killBtn.innerHTML = "Kill";
         ideaBox.appendChild(killBtn);
@@ -200,16 +200,15 @@ function newIdea() {
 }
 
 
-function howToBTN(){
+function howToBTN() {
     window.location.href = "http://127.0.0.1:8081/howTo.html";
 }
 
-function highScoresBTN(){
+function highScoresBTN() {
     window.location.href = "http://127.0.0.1:8081/highScores.html";
 }
 
 window.onload = function () {
     list = document.getElementById("lCon");
     loadList();
-    list = null;
 };

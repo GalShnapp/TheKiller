@@ -53,11 +53,11 @@ app.post('/users/register', function (req, res) {
 /**
  * Login endpoint
  */
-app.post('/users/login', function (req, res) {
+app.get('/users/login', function (req, res) {
     console.log('----------  login  ----------');
     console.log('a user requested /users/login');
-    let username = req.body.username;
-    let password = req.body.pass;
+    let username = req.query.id;
+    let password = req.query.pw;
     console.log('user name: ' + username + 'password: ' + password);
     // @ts-ignore
     if (gameSingleton.loginUser(username, password)) {
@@ -94,6 +94,9 @@ app.get('/data/score', function (req, res) {
     }
 });
 
+/**
+ * Single User Rank endpoint
+ */
 app.get('/data/rank', function (req, res) {
     console.log('');
     console.log('----------  ranks  ----------');
@@ -113,6 +116,9 @@ app.get('/data/rank', function (req, res) {
     }
 });
 
+/**
+ * Single User Msg endpoint
+ */
 app.get('/data/msg', function (req, res) {
     console.log('');
     console.log('-----------  msg  -----------');
@@ -134,6 +140,9 @@ app.get('/data/msg', function (req, res) {
 
 });
 
+/**
+ * HighScores endpoint
+ */
 app.get('/data/highScores', function (req, res) {
     console.log('');
     console.log('-----------  HiScore  -----------');
@@ -149,7 +158,38 @@ app.get('/data/highScores', function (req, res) {
 
 });
 
+/**
+ * mark-list endpoint
+ */
+app.get('/marks', function (req, res) {
+    console.log('');
+    console.log('----------  marks  ----------');
+    console.log('a user requested /marks');
+    let user = req.query.id;
+    console.log('query: id=' + user);
+    let marks = {
+        //@ts-ignore
+        'marks': gameSingleton.getMarksForUser(user)
+    };
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200);
+    res.json(marks);
 
+});
+
+app.get('/kill', function (req, res) {
+    console.log('----------  kill!  ----------');
+    console.log('a user requested /users/login');
+    let killer = req.query.killer;
+    let mark = req.query.mark;
+    console.log('killer: ' + killer + ' mark: ' + mark);
+
+    // @ts-ignore
+    let datum = gameSingleton.kill(killer, mark);
+    console.log(datum);
+    res.status(200);
+    res.send();
+});
 
 
 // *********************************************

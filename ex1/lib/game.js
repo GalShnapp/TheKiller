@@ -84,13 +84,7 @@ class game {
          * @param {String} user - user ID
          */
         this.getMarksForUser = function (user) {
-            let marks = {};
-            if (this.userExists(user)) {
-                for (let mark in this.users[user].marks) {
-                    marks[mark] = this.users[mark];
-                }
-            }
-            return marks;
+            return this.users[user].marks;
         };
 
         /**
@@ -124,7 +118,7 @@ class game {
                     while (markObj.bewareOf.length != 0) {
                         let opposer = markObj.bewareOf.pop();
                         this.users[opposer].marks[mark] =
-                            (opposer.localeCompare(killer)) ? 1 : 2;
+                            (opposer.localeCompare(killer)) ? 2 : 1;
                         console.log(1 + opposer.localeCompare(killer));
                     }
                     this.users[killer].score += this.users[mark].score;
@@ -194,6 +188,7 @@ class game {
             if (this.userExists(user)) {
                 return this.users[user].msg;
             } else {
+                // @ts-ignore
                 return -1;
             }
         }
