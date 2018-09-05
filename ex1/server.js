@@ -135,6 +135,7 @@ app.post('/users/login', function (req, res) {
 app.get('/', function (req, res) {
 
     if (Object.keys(req.cookies).length > 0) {
+
         res.status(200);
         res.sendFile(path.join(__dirname, "priv", "ideas.html"));
     } else {
@@ -163,15 +164,60 @@ app.post('/ideaup', function (req, res) {
  * kill a player endpoint
  */
 app.delete('/kill', function (req, res) {
-    // /idea/<id> (DELETE) - delete an idea by it’s id (returns 0 if success, 1 otherwise)
-    // @ts-ignore
-    let DB = JSON.parse(fs.readFileSync('DB.txt'));
-    let ideas = DB[req.cookies.username].ideas;
+    console.log('');
+    console.log('----------  kill!  ----------');
+    console.log('a user requested /kill');
+    let user = req.cookies.username;
     let data = req.body;
+
+    console.log("user: " + user);
+    console.log("datum: " + data);
+    let index;
     for (let key in data) {
-        delete ideas[key];
+        index = key;
     }
-    fs.writeFileSync('DB.txt', JSON.stringify(DB));
+    var options = {
+        // host to forward to
+        host: '127.0.0.1',
+        // port to forward to
+        port: 8082,
+        // path to forward to
+        path: '/kill?killer=' + user + '&mark=' + index,
+        // request method
+        method: 'get'
+    };
+    let creq = http.request(options, function (cres) {
+
+        // set encoding
+        cres.setEncoding('utf8');
+
+        // wait for data
+        cres.on('data', function (chunk) {
+            res.status(200);
+            res.send();
+            console.log(chunk.localeCompare('verified'));
+            console.log(chunk.localeCompare('missMatch'));
+        });
+
+        cres.on('close', function () {
+            console.log('close');
+        });
+
+        cres.on('end', function () {
+            console.log('end');
+        });
+
+    }).on('error', function (e) {
+        // we got an error, return 500 error to client and log error
+        console.log('err');
+        console.log(e.message);
+        res.writeHead(409);
+        res.end();
+    });
+    console.log('banana');
+    creq.end();
+
+
     res.status(200);
     res.send();
 
