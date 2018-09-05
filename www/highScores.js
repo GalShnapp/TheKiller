@@ -19,11 +19,17 @@ function loadHighScores() {
         })
         .then(function (obj) {
             var index = 1;
-            for (var key in obj["highScores"]) {
-                var idea = scoreFactory(key[0], key[1], index);
+            var numOfEntries = obj["highScores"].length;
+            for (let i = 0; i < numOfEntries; i++){
+                var idea = scoreFactory(obj["highScores"][numOfEntries - 1 - i][0], obj["highScores"][numOfEntries - 1 - i][1], numOfEntries - i);
                 list.insertBefore(idea, list.childNodes[0]);
-                index++;
             }
+            // for (var key in obj["highScores"]) {
+            //
+            //     var idea = scoreFactory(obj["highScores"][obj["highScores"].length - key][0], obj["highScores"]["highScores"].length - key][1], index);
+            //     list.insertBefore(idea, list.childNodes[0]);
+            //     index++;
+            // }
 
         });
 }
@@ -60,11 +66,35 @@ function scoreFactory(key, value, index) {
 
 }
 
+function viewProfileButton(id) {
+
+    var origRef = document.getElementById(id);
+    var editable = document.createElement("DIV");
+    var textArea = document.createElement("TEXTAREA");
+    var addBlk = document.createElement("DIV");
+    var saveBtn = document.createElement("BUTTON");
+
+    editable.setAttribute("id", id);
+    saveBtn.setAttribute("onclick", "save(\"" + id + "\")");
+    saveBtn.innerHTML = "Save";
+    editable.setAttribute("class", "container darker");
+    addBlk.setAttribute("class", "addBlock");
+    textArea.innerHTML = origRef.childNodes[0].innerHTML;
+    addBlk.appendChild(saveBtn);
+    editable.appendChild(textArea);
+    editable.appendChild(addBlk);
+
+    list.replaceChild(editable, origRef);
+    document.location.href = "http://127.0.0.1:8081/profilePage.html?id=" + id;
+
+}
+
 
 function backBTN(){
     window.location.href = "http://127.0.0.1:8081/";
 }
 
 window.onload = function () {
+    list = document.getElementById("lCon");
     loadHighScores();
 };

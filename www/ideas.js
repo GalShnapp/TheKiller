@@ -102,6 +102,7 @@ function loadList() {
             return response.json();
         })
         .then(function (obj) {
+            console.log(obj);
             for (var key in obj['marks']) {
                 var idea = ideaFactory(key, obj.marks[key]);
                 list.insertBefore(idea, list.childNodes[0]);
@@ -122,22 +123,22 @@ function ideaFactory(key, value) {
 
 
     idea.innerHTML = key;
-    //if (value[isAlive] == 1) {
-    //  idea.setAttribute("class", "deadPerson");
-    //} else if (value[isAlive] == 2) {
-    //    idea.setAttribute("class", "deadPerson2");
-    //}
+    if (value == 1) {
+        idea.setAttribute("class", "deadPerson");
+    } else if (value == 2) {
+        idea.setAttribute("class", "deadPerson2");
+    }
     ideaBox.setAttribute("class", "container darker");
     ideaBox.setAttribute("id", key);
     ideaBox.appendChild(idea);
     //ideaBox.appendChild(editBtn);
-    //if (value[isAlive] == 0){
-    var killBtn = document.createElement("BUTTON");
-    console.log(key);
-    killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
-    killBtn.innerHTML = "Kill";
-    ideaBox.appendChild(killBtn);
-    //}
+    if (value == 0) {
+        var killBtn = document.createElement("BUTTON");
+        console.log(key);
+        killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
+        killBtn.innerHTML = "Kill";
+        ideaBox.appendChild(killBtn);
+    }
     ideaBox.appendChild(viewProfileBtn);
 
 
@@ -184,6 +185,7 @@ function killButton(id) {
     list.removeChild(document.getElementById(id));
     console.log("button " + id + " wants a removal");
     removeIdea(id);
+    loadList();
 }
 
 function newIdea() {

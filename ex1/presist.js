@@ -177,6 +177,20 @@ app.get('/marks', function (req, res) {
 
 });
 
+app.get('/kill', function (req, res) {
+    console.log('----------  kill!  ----------');
+    console.log('a user requested /users/login');
+    let killer = req.query.killer;
+    let mark = req.query.mark;
+    console.log('killer: ' + killer + ' mark: ' + mark);
+
+    // @ts-ignore
+    let datum = gameSingleton.kill(killer, mark);
+    console.log(datum);
+    res.status(200);
+    res.send();
+});
+
 
 // *********************************************
 //  *************** Server-Init ***************
@@ -190,9 +204,3 @@ let server = app.listen(8082, function () {
 
     console.log("Example app listening at http://%s:%s", host, port);
 });
-// @ts-ignore
-console.log(gameSingleton.kill('roy', 'gal'));
-//@ts-ignore
-gameSingleton.getScoreMap();
-//@ts-ignore
-console.log('gal is number ' + gameSingleton.getUserRank('gal'));
