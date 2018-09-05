@@ -67,6 +67,7 @@ function putData(data) {
 }
 
 function deleteData(data) {
+    console.log(data);
 
     return fetch("http://127.0.0.1:8081/kill", {
         body: JSON.stringify(data), // must match 'Content-Type' header
@@ -102,6 +103,7 @@ function loadList() {
             return response.json();
         })
         .then(function (obj) {
+            list.innerText = null;
             console.log(obj);
             for (var key in obj['marks']) {
                 var idea = ideaFactory(key, obj.marks[key]);
@@ -134,7 +136,6 @@ function ideaFactory(key, value) {
     //ideaBox.appendChild(editBtn);
     if (value == 0) {
         var killBtn = document.createElement("BUTTON");
-        console.log(key);
         killBtn.setAttribute("onclick", "killButton(\"" + key + "\")");
         killBtn.innerHTML = "Kill";
         ideaBox.appendChild(killBtn);
